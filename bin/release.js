@@ -40,7 +40,8 @@ args.option('pre', 'Mark the release as prerelease')
 	.option(['t', 'previous-tag'], 'Specify previous release', '')
 	.option(['u', 'show-url'], 'Show the release URL instead of opening it in the browser')
 	.option(['s', 'skip-questions'], 'Skip the questions and create a simple list without the headings')
-	.option(['x', 'pre-suffix'], 'Specify the pre-release suffix (defaults to `canary`)');
+	.option(['x', 'pre-suffix'], 'Specify the pre-release suffix (defaults to `canary`)')
+	.option(['g', 'github-auth-token'], 'Github Authentication Token for release op.');
 
 const flags = args.parse(process.argv);
 
@@ -333,7 +334,7 @@ const checkReleaseStatus = async () => {
 		fail('Your branch needs to be up-to-date with origin.');
 	}
 
-	githubConnection = await connect(flags.showUrl);
+	githubConnection = await connect(flags.showUrl, flags.githubAuthToken);
 	repoDetails = await getRepo(githubConnection);
 
 	createSpinner('Checking if release already exists');
